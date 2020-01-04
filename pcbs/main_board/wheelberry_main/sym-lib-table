@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name wheelberry_main-rescue)(type Legacy)(uri ${KIPRJMOD}/wheelberry_main-rescue.lib)(options "")(descr ""))
+  (lib (name wheelberry)(type Legacy)(uri ${KIPRJMOD}/wheelberry.lib)(options "")(descr ""))
+)

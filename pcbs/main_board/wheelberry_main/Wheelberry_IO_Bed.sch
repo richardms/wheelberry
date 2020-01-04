@@ -1,0 +1,939 @@
+EESchema Schematic File Version 4
+LIBS:wheelberry_main-cache
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 4 4
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Interface_Expansion:MCP23017_SP U?
+U 1 1 5EA41D78
+P 4100 2500
+AR Path="/5EA41D78" Ref="U?"  Part="1" 
+AR Path="/5DC82395/5EA41D78" Ref="U?"  Part="1" 
+AR Path="/5E9F389F/5EA41D78" Ref="U4"  Part="1" 
+F 0 "U4" H 4100 3781 50  0000 C CNN
+F 1 "MCP23017_SO" H 4100 3690 50  0000 C CNN
+F 2 "Package_DIP:DIP-28_W7.62mm" H 4300 1500 50  0001 L CNN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/20001952C.pdf" H 4300 1400 50  0001 L CNN
+	1    4100 2500
+	1    0    0    -1  
+$EndComp
+Text HLabel 3000 1700 0    50   Input ~ 0
+I2C_SDA_3V3
+Text HLabel 3000 1800 0    50   Input ~ 0
+I2C_SCL_3V3
+Text HLabel 1500 2400 0    50   Input ~ 0
+EXPDR_INTA
+Text HLabel 1500 2300 0    50   Input ~ 0
+EXPDR_INTB
+Wire Wire Line
+	3000 1800 3400 1800
+Wire Wire Line
+	3400 1700 3000 1700
+Wire Wire Line
+	3400 2300 1500 2300
+$Comp
+L power:GND #PWR?
+U 1 1 5EA41D85
+P 4100 3900
+AR Path="/5DC82395/5EA41D85" Ref="#PWR?"  Part="1" 
+AR Path="/5E9F389F/5EA41D85" Ref="#PWR0101"  Part="1" 
+F 0 "#PWR0101" H 4100 3650 50  0001 C CNN
+F 1 "GND" H 4105 3727 50  0000 C CNN
+F 2 "" H 4100 3900 50  0001 C CNN
+F 3 "" H 4100 3900 50  0001 C CNN
+	1    4100 3900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1500 2400 3400 2400
+Wire Wire Line
+	4100 3900 4100 3800
+$Comp
+L Device:C C?
+U 1 1 5EA41D90
+P 6050 3450
+AR Path="/5DC82395/5EA41D90" Ref="C?"  Part="1" 
+AR Path="/5E9F389F/5EA41D90" Ref="C12"  Part="1" 
+F 0 "C12" H 6165 3496 50  0000 L CNN
+F 1 "100n" H 6165 3405 50  0000 L CNN
+F 2 "Capacitor_THT:C_Rect_L7.0mm_W2.5mm_P5.00mm" H 6088 3300 50  0001 C CNN
+F 3 "~" H 6050 3450 50  0001 C CNN
+	1    6050 3450
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 5EA41DA3
+P 6450 3450
+AR Path="/5DC82395/5EA41DA3" Ref="C?"  Part="1" 
+AR Path="/5E9F389F/5EA41DA3" Ref="C13"  Part="1" 
+F 0 "C13" H 6565 3496 50  0000 L CNN
+F 1 "100n" H 6565 3405 50  0000 L CNN
+F 2 "Capacitor_THT:C_Rect_L7.0mm_W2.5mm_P5.00mm" H 6488 3300 50  0001 C CNN
+F 3 "~" H 6450 3450 50  0001 C CNN
+	1    6450 3450
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 5EA41DB0
+P 6850 3450
+AR Path="/5DC82395/5EA41DB0" Ref="C?"  Part="1" 
+AR Path="/5E9F389F/5EA41DB0" Ref="C14"  Part="1" 
+F 0 "C14" H 6965 3496 50  0000 L CNN
+F 1 "100n" H 6965 3405 50  0000 L CNN
+F 2 "Capacitor_THT:C_Rect_L7.0mm_W2.5mm_P5.00mm" H 6888 3300 50  0001 C CNN
+F 3 "~" H 6850 3450 50  0001 C CNN
+	1    6850 3450
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 5EA41DBC
+P 7250 3450
+AR Path="/5DC82395/5EA41DBC" Ref="C?"  Part="1" 
+AR Path="/5E9F389F/5EA41DBC" Ref="C15"  Part="1" 
+F 0 "C15" H 7365 3496 50  0000 L CNN
+F 1 "100n" H 7365 3405 50  0000 L CNN
+F 2 "Capacitor_THT:C_Rect_L7.0mm_W2.5mm_P5.00mm" H 7288 3300 50  0001 C CNN
+F 3 "~" H 7250 3450 50  0001 C CNN
+	1    7250 3450
+	1    0    0    -1  
+$EndComp
+$Comp
+L Relay_SolidState:TLP222A-2 U?
+U 2 1 5EA41E07
+P 4350 6200
+AR Path="/5DC82395/5EA41E07" Ref="U?"  Part="1" 
+AR Path="/5E9F389F/5EA41E07" Ref="U6"  Part="2" 
+F 0 "U6" H 4350 6525 50  0000 C CNN
+F 1 "TLP222A-2" H 4350 6434 50  0000 C CNN
+F 2 "Package_DIP:DIP-8_W7.62mm" H 4150 6000 50  0001 L CIN
+F 3 "https://toshiba.semicon-storage.com/info/docget.jsp?did=17036&prodName=TLP222A" H 4300 6200 50  0001 L CNN
+	2    4350 6200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Relay_SolidState:TLP222A-2 U?
+U 2 1 5EA41E0D
+P 4000 5700
+AR Path="/5DC82395/5EA41E0D" Ref="U?"  Part="2" 
+AR Path="/5E9F389F/5EA41E0D" Ref="U3"  Part="2" 
+F 0 "U3" H 4000 6025 50  0000 C CNN
+F 1 "TLP222A-2" H 4000 5934 50  0000 C CNN
+F 2 "Package_DIP:DIP-8_W7.62mm" H 3800 5500 50  0001 L CIN
+F 3 "https://toshiba.semicon-storage.com/info/docget.jsp?did=17036&prodName=TLP222A" H 3950 5700 50  0001 L CNN
+	2    4000 5700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:DIN-7 J?
+U 1 1 5EA41E40
+P 5700 5350
+AR Path="/5DC82395/5EA41E40" Ref="J?"  Part="1" 
+AR Path="/5E9F389F/5EA41E40" Ref="J4"  Part="1" 
+F 0 "J4" H 5700 5075 50  0000 C CNN
+F 1 "DIN-7" H 5700 4984 50  0000 C CNN
+F 2 "wheelberry:pro-signal_DIN7_Socket" H 5700 5350 50  0001 C CNN
+F 3 "http://www.mouser.com/ds/2/18/40_c091_abd_e-75918.pdf" H 5700 5350 50  0001 C CNN
+	1    5700 5350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4300 4450 5000 4450
+Wire Wire Line
+	5000 4450 5000 4950
+Wire Wire Line
+	5000 5350 5400 5350
+Wire Wire Line
+	4650 4950 5000 4950
+Connection ~ 5000 4950
+Wire Wire Line
+	5000 4950 5000 5350
+Wire Wire Line
+	4300 5600 5000 5600
+Wire Wire Line
+	5000 5600 5000 5350
+Connection ~ 5000 5350
+Wire Wire Line
+	4650 6100 5000 6100
+Wire Wire Line
+	5000 6100 5000 5600
+Connection ~ 5000 5600
+Wire Wire Line
+	5700 5050 5700 4650
+Wire Wire Line
+	5700 4650 5350 4650
+Wire Wire Line
+	5400 5250 5350 5250
+Wire Wire Line
+	4650 5250 4650 5150
+Wire Wire Line
+	6000 5350 6250 5350
+Wire Wire Line
+	6250 5350 6250 5800
+Wire Wire Line
+	6250 5800 5350 5800
+Wire Wire Line
+	6000 5250 6350 5250
+Wire Wire Line
+	6350 5250 6350 6300
+Wire Wire Line
+	6350 6300 5350 6300
+$Comp
+L power:GND #PWR?
+U 1 1 5EA41E5D
+P 3600 7500
+AR Path="/5DC82395/5EA41E5D" Ref="#PWR?"  Part="1" 
+AR Path="/5E9F389F/5EA41E5D" Ref="#PWR0104"  Part="1" 
+F 0 "#PWR0104" H 3600 7250 50  0001 C CNN
+F 1 "GND" H 3605 7327 50  0000 C CNN
+F 2 "" H 3600 7500 50  0001 C CNN
+F 3 "" H 3600 7500 50  0001 C CNN
+	1    3600 7500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3600 4650 3700 4650
+Wire Wire Line
+	4050 5150 3600 5150
+Connection ~ 3600 5150
+Wire Wire Line
+	3600 5150 3600 4650
+Wire Wire Line
+	3700 5800 3600 5800
+Connection ~ 3600 5800
+Wire Wire Line
+	3600 5800 3600 5150
+Wire Wire Line
+	4050 6300 3600 6300
+Connection ~ 3600 6300
+Wire Wire Line
+	3600 6300 3600 5800
+$Comp
+L Device:R R?
+U 1 1 5EA41E6E
+P 5200 4650
+AR Path="/5DC82395/5EA41E6E" Ref="R?"  Part="1" 
+AR Path="/5E9F389F/5EA41E6E" Ref="R20"  Part="1" 
+F 0 "R20" V 4993 4650 50  0000 C CNN
+F 1 "10" V 5084 4650 50  0000 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P2.54mm_Vertical" V 5130 4650 50  0001 C CNN
+F 3 "~" H 5200 4650 50  0001 C CNN
+	1    5200 4650
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5EA41E74
+P 5200 5250
+AR Path="/5DC82395/5EA41E74" Ref="R?"  Part="1" 
+AR Path="/5E9F389F/5EA41E74" Ref="R21"  Part="1" 
+F 0 "R21" V 4993 5250 50  0000 C CNN
+F 1 "10" V 5084 5250 50  0000 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P2.54mm_Vertical" V 5130 5250 50  0001 C CNN
+F 3 "~" H 5200 5250 50  0001 C CNN
+	1    5200 5250
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5050 5250 4650 5250
+$Comp
+L Device:R R?
+U 1 1 5EA41E7B
+P 5200 5800
+AR Path="/5DC82395/5EA41E7B" Ref="R?"  Part="1" 
+AR Path="/5E9F389F/5EA41E7B" Ref="R22"  Part="1" 
+F 0 "R22" V 4993 5800 50  0000 C CNN
+F 1 "10" V 5084 5800 50  0000 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P2.54mm_Vertical" V 5130 5800 50  0001 C CNN
+F 3 "~" H 5200 5800 50  0001 C CNN
+	1    5200 5800
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5050 5800 4300 5800
+$Comp
+L Device:R R?
+U 1 1 5EA41E82
+P 5200 6300
+AR Path="/5DC82395/5EA41E82" Ref="R?"  Part="1" 
+AR Path="/5E9F389F/5EA41E82" Ref="R23"  Part="1" 
+F 0 "R23" V 4993 6300 50  0000 C CNN
+F 1 "10" V 5084 6300 50  0000 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P2.54mm_Vertical" V 5130 6300 50  0001 C CNN
+F 3 "~" H 5200 6300 50  0001 C CNN
+	1    5200 6300
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5050 6300 4650 6300
+Wire Wire Line
+	4100 3600 3100 3600
+Wire Wire Line
+	3100 3200 3400 3200
+Wire Wire Line
+	3100 3300 3400 3300
+Wire Wire Line
+	3100 3200 3100 3300
+Connection ~ 3100 3300
+Wire Wire Line
+	3100 3300 3100 3600
+$Comp
+L Device:R R?
+U 1 1 5EA41E8F
+P 2200 2850
+AR Path="/5DC82395/5EA41E8F" Ref="R?"  Part="1" 
+AR Path="/5E9F389F/5EA41E8F" Ref="R15"  Part="1" 
+F 0 "R15" H 2270 2896 50  0000 L CNN
+F 1 "10k" H 2270 2805 50  0000 L CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal" V 2130 2850 50  0001 C CNN
+F 3 "~" H 2200 2850 50  0001 C CNN
+	1    2200 2850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5EA41E95
+P 2200 3350
+AR Path="/5DC82395/5EA41E95" Ref="R?"  Part="1" 
+AR Path="/5E9F389F/5EA41E95" Ref="R16"  Part="1" 
+F 0 "R16" H 2270 3396 50  0000 L CNN
+F 1 "10k" H 2270 3305 50  0000 L CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal" V 2130 3350 50  0001 C CNN
+F 3 "~" H 2200 3350 50  0001 C CNN
+	1    2200 3350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2200 3500 2200 3600
+Wire Wire Line
+	2200 3600 3100 3600
+Connection ~ 3100 3600
+Wire Wire Line
+	2200 3200 2200 3100
+Wire Wire Line
+	3400 3100 2200 3100
+Connection ~ 2200 3100
+Wire Wire Line
+	2200 3100 2200 3000
+$Comp
+L Device:R R?
+U 1 1 5EA41EA5
+P 2350 1500
+AR Path="/5DC82395/5EA41EA5" Ref="R?"  Part="1" 
+AR Path="/5E9F389F/5EA41EA5" Ref="R17"  Part="1" 
+F 0 "R17" H 2420 1546 50  0000 L CNN
+F 1 "10k" H 2420 1455 50  0000 L CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal" V 2280 1500 50  0001 C CNN
+F 3 "~" H 2350 1500 50  0001 C CNN
+	1    2350 1500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2350 1650 2350 2600
+Wire Wire Line
+	2350 2600 3400 2600
+$Comp
+L Device:R_Network08 RN?
+U 1 1 5EA41EB2
+P 5400 3600
+AR Path="/5DC82395/5EA41EB2" Ref="RN?"  Part="1" 
+AR Path="/5E9F389F/5EA41EB2" Ref="RN5"  Part="1" 
+F 0 "RN5" H 5788 3646 50  0000 L CNN
+F 1 "10k" H 5788 3555 50  0000 L CNN
+F 2 "Resistor_THT:R_Array_SIP9" V 5875 3600 50  0001 C CNN
+F 3 "http://www.vishay.com/docs/31509/csc.pdf" H 5400 3600 50  0001 C CNN
+	1    5400 3600
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R_Pack04_SIP RN?
+U 1 1 5EA41ED3
+P 1650 5700
+AR Path="/5DC82395/5EA41ED3" Ref="RN?"  Part="1" 
+AR Path="/5E9F389F/5EA41ED3" Ref="RN2"  Part="1" 
+F 0 "RN2" V 933 5681 50  0000 C CNN
+F 1 "330" V 1024 5681 50  0000 C CNN
+F 2 "Resistor_THT:R_Array_SIP8" V 2325 5700 50  0001 C CNN
+F 3 "http://www.vishay.com/docs/31509/csc.pdf" H 1650 5700 50  0001 C CNN
+	1    1650 5700
+	0    -1   1    0   
+$EndComp
+Wire Wire Line
+	2650 5500 1850 5500
+Wire Wire Line
+	2900 5800 1850 5800
+Wire Wire Line
+	3150 6100 1850 6100
+Wire Wire Line
+	4800 2600 5100 2600
+Wire Wire Line
+	5200 2700 4800 2700
+Wire Wire Line
+	4800 2800 5300 2800
+Wire Wire Line
+	5400 2900 4800 2900
+Wire Wire Line
+	4800 3000 5500 3000
+Wire Wire Line
+	5600 3100 4800 3100
+Wire Wire Line
+	4800 3200 5700 3200
+Wire Wire Line
+	5800 3300 4800 3300
+Wire Wire Line
+	4800 1700 5050 1700
+Wire Wire Line
+	4800 1800 5050 1800
+Wire Wire Line
+	4800 1900 5050 1900
+Wire Wire Line
+	4800 2000 5050 2000
+Wire Wire Line
+	4800 2100 5050 2100
+Wire Wire Line
+	4800 2200 5050 2200
+Wire Wire Line
+	4800 2300 5050 2300
+Wire Wire Line
+	5050 2400 4800 2400
+Text Label 5050 1700 2    50   ~ 0
+GPB0
+Text Label 5050 1800 2    50   ~ 0
+GPB1
+Text Label 5050 1900 2    50   ~ 0
+GPB2
+Text Label 5050 2000 2    50   ~ 0
+GPB3
+Text Label 5050 2100 2    50   ~ 0
+GPB4
+Text Label 5050 2200 2    50   ~ 0
+GPB5
+Text Label 5050 2300 2    50   ~ 0
+GPB6
+Text Label 5050 2400 2    50   ~ 0
+GPB7
+Wire Wire Line
+	1850 5200 2400 5200
+Text Label 2400 5200 2    50   ~ 0
+GPB0
+Text Label 2650 5500 2    50   ~ 0
+GPB1
+Text Label 2900 5800 2    50   ~ 0
+GPB2
+Text Label 3150 6100 2    50   ~ 0
+GPB3
+Wire Wire Line
+	5050 4650 4300 4650
+$Comp
+L Relay_SolidState:TLP222A-2 U?
+U 1 1 5EA41F39
+P 4000 4550
+AR Path="/5DC82395/5EA41F39" Ref="U?"  Part="2" 
+AR Path="/5E9F389F/5EA41F39" Ref="U3"  Part="1" 
+F 0 "U3" H 4000 4875 50  0000 C CNN
+F 1 "TLP222A-2" H 4000 4784 50  0000 C CNN
+F 2 "Package_DIP:DIP-8_W7.62mm" H 3800 4350 50  0001 L CIN
+F 3 "https://toshiba.semicon-storage.com/info/docget.jsp?did=17036&prodName=TLP222A" H 3950 4550 50  0001 L CNN
+	1    4000 4550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Relay_SolidState:TLP222A-2 U?
+U 1 1 5EA41F3F
+P 4350 5050
+AR Path="/5DC82395/5EA41F3F" Ref="U?"  Part="1" 
+AR Path="/5E9F389F/5EA41F3F" Ref="U6"  Part="1" 
+F 0 "U6" H 4350 5375 50  0000 C CNN
+F 1 "TLP222A-2" H 4350 5284 50  0000 C CNN
+F 2 "Package_DIP:DIP-8_W7.62mm" H 4150 4850 50  0001 L CIN
+F 3 "https://toshiba.semicon-storage.com/info/docget.jsp?did=17036&prodName=TLP222A" H 4300 5050 50  0001 L CNN
+	1    4350 5050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:DIN-7 J?
+U 1 1 5EA41F51
+P 9050 2400
+AR Path="/5DC82395/5EA41F51" Ref="J?"  Part="1" 
+AR Path="/5E9F389F/5EA41F51" Ref="J11"  Part="1" 
+F 0 "J11" H 9050 2125 50  0000 C CNN
+F 1 "DIN-7" H 9050 2034 50  0000 C CNN
+F 2 "wheelberry:pro-signal_DIN7_Socket" H 9050 2400 50  0001 C CNN
+F 3 "http://www.mouser.com/ds/2/18/40_c091_abd_e-75918.pdf" H 9050 2400 50  0001 C CNN
+	1    9050 2400
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R_Pack04_SIP RN?
+U 1 1 5EA41F57
+P 7300 1500
+AR Path="/5DC82395/5EA41F57" Ref="RN?"  Part="1" 
+AR Path="/5E9F389F/5EA41F57" Ref="RN6"  Part="1" 
+F 0 "RN6" H 7888 1527 50  0000 L CNN
+F 1 "1k" H 7888 1436 50  0000 L CNN
+F 2 "Resistor_THT:R_Array_SIP8" V 7975 1500 50  0001 C CNN
+F 3 "http://www.vishay.com/docs/31509/csc.pdf" H 7300 1500 50  0001 C CNN
+	1    7300 1500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8750 2400 8450 2400
+Wire Wire Line
+	9350 2400 9600 2400
+$Comp
+L Relay_SolidState:TLP222A-2 U?
+U 1 1 5EA41F78
+P 4350 6700
+AR Path="/5DC82395/5EA41F78" Ref="U?"  Part="2" 
+AR Path="/5E9F389F/5EA41F78" Ref="U9"  Part="1" 
+F 0 "U9" H 4350 7025 50  0000 C CNN
+F 1 "TLP222A-2" H 4350 6934 50  0000 C CNN
+F 2 "Package_DIP:DIP-8_W7.62mm" H 4150 6500 50  0001 L CIN
+F 3 "https://toshiba.semicon-storage.com/info/docget.jsp?did=17036&prodName=TLP222A" H 4300 6700 50  0001 L CNN
+	1    4350 6700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Relay_SolidState:TLP222A-2 U?
+U 2 1 5EA41F7E
+P 4700 7200
+AR Path="/5DC82395/5EA41F7E" Ref="U?"  Part="1" 
+AR Path="/5E9F389F/5EA41F7E" Ref="U9"  Part="2" 
+F 0 "U9" H 4700 7525 50  0000 C CNN
+F 1 "TLP222A-2" H 4700 7434 50  0000 C CNN
+F 2 "Package_DIP:DIP-8_W7.62mm" H 4500 7000 50  0001 L CIN
+F 3 "https://toshiba.semicon-storage.com/info/docget.jsp?did=17036&prodName=TLP222A" H 4650 7200 50  0001 L CNN
+	2    4700 7200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5EA41F84
+P 5200 6800
+AR Path="/5DC82395/5EA41F84" Ref="R?"  Part="1" 
+AR Path="/5E9F389F/5EA41F84" Ref="R24"  Part="1" 
+F 0 "R24" V 4993 6800 50  0000 C CNN
+F 1 "10" V 5084 6800 50  0000 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P2.54mm_Vertical" V 5130 6800 50  0001 C CNN
+F 3 "~" H 5200 6800 50  0001 C CNN
+	1    5200 6800
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5EA41F8A
+P 5200 7300
+AR Path="/5DC82395/5EA41F8A" Ref="R?"  Part="1" 
+AR Path="/5E9F389F/5EA41F8A" Ref="R25"  Part="1" 
+F 0 "R25" V 4993 7300 50  0000 C CNN
+F 1 "10" V 5084 7300 50  0000 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P2.54mm_Vertical" V 5130 7300 50  0001 C CNN
+F 3 "~" H 5200 7300 50  0001 C CNN
+	1    5200 7300
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4650 6600 5000 6600
+Wire Wire Line
+	5000 6600 5000 6100
+Connection ~ 5000 6100
+Connection ~ 5000 6600
+Wire Wire Line
+	4650 6800 5050 6800
+Wire Wire Line
+	5350 6800 5400 6800
+Wire Wire Line
+	5400 6800 5400 5450
+Wire Wire Line
+	5350 7300 6000 7300
+Wire Wire Line
+	6000 7300 6000 5450
+Wire Wire Line
+	5050 7300 5000 7300
+Wire Wire Line
+	5000 6600 5000 7100
+Wire Wire Line
+	5800 3800 4100 3800
+Connection ~ 4100 3800
+Wire Wire Line
+	4100 3600 4100 3800
+Connection ~ 4100 3600
+Wire Wire Line
+	5700 3400 5700 3200
+Wire Wire Line
+	5600 3400 5600 3100
+Wire Wire Line
+	5500 3400 5500 3000
+Wire Wire Line
+	5400 2900 5400 3400
+Wire Wire Line
+	5300 3400 5300 2800
+Wire Wire Line
+	5200 3400 5200 2700
+Wire Wire Line
+	5100 3400 5100 2600
+Wire Wire Line
+	5800 3300 5800 3400
+Wire Wire Line
+	1850 5300 2700 5300
+Wire Wire Line
+	2700 5300 2700 4450
+Wire Wire Line
+	2700 4450 3700 4450
+Wire Wire Line
+	3300 5600 3300 4950
+Wire Wire Line
+	3300 4950 4050 4950
+Wire Wire Line
+	1850 5600 3300 5600
+Wire Wire Line
+	3500 5900 3500 5600
+Wire Wire Line
+	3500 5600 3700 5600
+Wire Wire Line
+	1850 5900 3500 5900
+Wire Wire Line
+	3800 6200 3800 6100
+Wire Wire Line
+	3800 6100 4050 6100
+Wire Wire Line
+	1850 6200 3800 6200
+Wire Wire Line
+	4100 1000 3350 1000
+Wire Wire Line
+	2350 1000 2350 1350
+Wire Wire Line
+	2200 2700 2200 1000
+Wire Wire Line
+	2200 1000 2350 1000
+Connection ~ 2350 1000
+Wire Wire Line
+	4100 1000 4100 1400
+$Comp
+L power:+3.3V #PWR0105
+U 1 1 5EBEACE5
+P 3100 1000
+F 0 "#PWR0105" H 3100 850 50  0001 C CNN
+F 1 "+3.3V" H 3115 1173 50  0000 C CNN
+F 2 "" H 3100 1000 50  0001 C CNN
+F 3 "" H 3100 1000 50  0001 C CNN
+	1    3100 1000
+	1    0    0    -1  
+$EndComp
+Connection ~ 3100 1000
+Wire Wire Line
+	3100 1000 2350 1000
+Wire Wire Line
+	5100 2600 6050 2600
+Wire Wire Line
+	6800 2600 6800 1700
+Connection ~ 5100 2600
+Wire Wire Line
+	6900 1700 6900 1900
+Wire Wire Line
+	6900 1900 9050 1900
+Wire Wire Line
+	9050 1900 9050 2100
+Wire Wire Line
+	5200 2700 6450 2700
+Wire Wire Line
+	7100 2700 7100 1700
+Connection ~ 5200 2700
+Wire Wire Line
+	7200 1700 7200 2000
+Wire Wire Line
+	7200 2000 9600 2000
+Wire Wire Line
+	9600 2000 9600 2400
+Wire Wire Line
+	5300 2800 6850 2800
+Wire Wire Line
+	7400 2800 7400 1700
+Connection ~ 5300 2800
+Wire Wire Line
+	7500 1700 7500 2300
+Wire Wire Line
+	7500 2300 8750 2300
+Wire Wire Line
+	5400 2900 7250 2900
+Wire Wire Line
+	7700 2900 7700 1700
+Connection ~ 5400 2900
+Wire Wire Line
+	7800 1700 7800 1800
+Wire Wire Line
+	7800 1800 9350 1800
+Wire Wire Line
+	9350 1800 9350 2300
+$Comp
+L power:+3.3V #PWR0106
+U 1 1 5EC50F4C
+P 8250 800
+F 0 "#PWR0106" H 8250 650 50  0001 C CNN
+F 1 "+3.3V" H 8265 973 50  0000 C CNN
+F 2 "" H 8250 800 50  0001 C CNN
+F 3 "" H 8250 800 50  0001 C CNN
+	1    8250 800 
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR0107
+U 1 1 5EC52725
+P 8750 800
+F 0 "#PWR0107" H 8750 650 50  0001 C CNN
+F 1 "+5V" H 8765 973 50  0000 C CNN
+F 2 "" H 8750 800 50  0001 C CNN
+F 3 "" H 8750 800 50  0001 C CNN
+	1    8750 800 
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R28
+U 1 1 5EC530CA
+P 8250 950
+F 0 "R28" H 8320 996 50  0000 L CNN
+F 1 "10" H 8320 905 50  0000 L CNN
+F 2 "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P2.54mm_Vertical" V 8180 950 50  0001 C CNN
+F 3 "~" H 8250 950 50  0001 C CNN
+	1    8250 950 
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R30
+U 1 1 5EC540D1
+P 8750 950
+F 0 "R30" H 8820 996 50  0000 L CNN
+F 1 "10" H 8820 905 50  0000 L CNN
+F 2 "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P2.54mm_Vertical" V 8680 950 50  0001 C CNN
+F 3 "~" H 8750 950 50  0001 C CNN
+	1    8750 950 
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8250 1100 8250 1500
+Wire Wire Line
+	8250 1500 8450 1500
+Wire Wire Line
+	8750 1500 8750 1100
+Wire Wire Line
+	8450 2400 8450 1500
+Connection ~ 8450 1500
+Wire Wire Line
+	8450 1500 8750 1500
+$Comp
+L Device:R R27
+U 1 1 5EC6564A
+P 7900 3000
+F 0 "R27" V 7693 3000 50  0000 C CNN
+F 1 "1k" V 7784 3000 50  0000 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal" V 7830 3000 50  0001 C CNN
+F 3 "~" H 7900 3000 50  0001 C CNN
+	1    7900 3000
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R29
+U 1 1 5EC67196
+P 8300 3100
+F 0 "R29" V 8093 3100 50  0000 C CNN
+F 1 "1k" V 8184 3100 50  0000 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal" V 8230 3100 50  0001 C CNN
+F 3 "~" H 8300 3100 50  0001 C CNN
+	1    8300 3100
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	8750 2500 8550 2500
+Wire Wire Line
+	8550 2500 8550 3000
+Wire Wire Line
+	5600 3100 8050 3100
+Connection ~ 5600 3100
+Wire Wire Line
+	8450 3100 9600 3100
+Wire Wire Line
+	9600 3100 9600 2500
+Wire Wire Line
+	9600 2500 9350 2500
+Wire Wire Line
+	3600 6300 3600 6800
+Wire Wire Line
+	4050 6800 3600 6800
+Connection ~ 3600 6800
+Wire Wire Line
+	3600 6800 3600 7300
+Wire Wire Line
+	4400 7300 3600 7300
+Connection ~ 3600 7300
+Wire Wire Line
+	3600 7300 3600 7500
+$Comp
+L Device:R R18
+U 1 1 5ECCA203
+P 2800 6600
+F 0 "R18" V 2593 6600 50  0000 C CNN
+F 1 "330" V 2684 6600 50  0000 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal" V 2730 6600 50  0001 C CNN
+F 3 "~" H 2800 6600 50  0001 C CNN
+	1    2800 6600
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R19
+U 1 1 5ECCB42B
+P 2800 7100
+F 0 "R19" V 2593 7100 50  0000 C CNN
+F 1 "330" V 2684 7100 50  0000 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal" V 2730 7100 50  0001 C CNN
+F 3 "~" H 2800 7100 50  0001 C CNN
+	1    2800 7100
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	2950 6600 4050 6600
+Wire Wire Line
+	4400 7100 2950 7100
+Wire Wire Line
+	2650 6600 2000 6600
+Wire Wire Line
+	2650 7100 2000 7100
+Text Label 2000 6600 0    50   ~ 0
+GPB4
+Text Label 2000 7100 0    50   ~ 0
+GPB5
+Wire Wire Line
+	5500 3000 7650 3000
+Connection ~ 5500 3000
+Wire Wire Line
+	8050 3000 8550 3000
+Wire Wire Line
+	6050 3600 6050 3800
+Wire Wire Line
+	6050 3800 5800 3800
+Connection ~ 5800 3800
+Wire Wire Line
+	6450 3600 6450 3800
+Wire Wire Line
+	6450 3800 6050 3800
+Connection ~ 6050 3800
+Wire Wire Line
+	6850 3600 6850 3800
+Wire Wire Line
+	6850 3800 6450 3800
+Connection ~ 6450 3800
+Wire Wire Line
+	7250 3600 7250 3800
+Wire Wire Line
+	7250 3800 6850 3800
+Connection ~ 6850 3800
+Wire Wire Line
+	6050 3300 6050 2600
+Connection ~ 6050 2600
+Wire Wire Line
+	6050 2600 6800 2600
+Wire Wire Line
+	6450 3300 6450 2700
+Connection ~ 6450 2700
+Wire Wire Line
+	6450 2700 7100 2700
+Wire Wire Line
+	6850 3300 6850 2800
+Connection ~ 6850 2800
+Wire Wire Line
+	6850 2800 7400 2800
+Wire Wire Line
+	7250 3300 7250 2900
+Connection ~ 7250 2900
+Wire Wire Line
+	7250 2900 7700 2900
+$Comp
+L Device:C C?
+U 1 1 5EDED48C
+P 7650 3450
+AR Path="/5DC82395/5EDED48C" Ref="C?"  Part="1" 
+AR Path="/5E9F389F/5EDED48C" Ref="C16"  Part="1" 
+F 0 "C16" H 7765 3496 50  0000 L CNN
+F 1 "100n" H 7765 3405 50  0000 L CNN
+F 2 "Capacitor_THT:C_Rect_L7.0mm_W2.5mm_P5.00mm" H 7688 3300 50  0001 C CNN
+F 3 "~" H 7650 3450 50  0001 C CNN
+	1    7650 3450
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 5EDED496
+P 8050 3450
+AR Path="/5DC82395/5EDED496" Ref="C?"  Part="1" 
+AR Path="/5E9F389F/5EDED496" Ref="C17"  Part="1" 
+F 0 "C17" H 8165 3496 50  0000 L CNN
+F 1 "100n" H 8165 3405 50  0000 L CNN
+F 2 "Capacitor_THT:C_Rect_L7.0mm_W2.5mm_P5.00mm" H 8088 3300 50  0001 C CNN
+F 3 "~" H 8050 3450 50  0001 C CNN
+	1    8050 3450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7650 3800 7250 3800
+Connection ~ 7250 3800
+Wire Wire Line
+	7650 3300 7650 3000
+Connection ~ 7650 3000
+Wire Wire Line
+	7650 3000 7750 3000
+Wire Wire Line
+	8050 3300 8050 3100
+Connection ~ 8050 3100
+Wire Wire Line
+	8050 3100 8150 3100
+Wire Wire Line
+	7650 3600 7650 3800
+Wire Wire Line
+	7650 3800 8050 3800
+Wire Wire Line
+	8050 3600 8050 3800
+Connection ~ 7650 3800
+$Comp
+L Device:C C?
+U 1 1 5EE524EC
+P 3350 1200
+AR Path="/5DC82395/5EE524EC" Ref="C?"  Part="1" 
+AR Path="/5E9F389F/5EE524EC" Ref="C19"  Part="1" 
+F 0 "C19" H 3465 1246 50  0000 L CNN
+F 1 "100n" H 3465 1155 50  0000 L CNN
+F 2 "Capacitor_THT:C_Rect_L7.0mm_W2.5mm_P5.00mm" H 3388 1050 50  0001 C CNN
+F 3 "~" H 3350 1200 50  0001 C CNN
+	1    3350 1200
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5EE53C49
+P 3350 1350
+AR Path="/5DC82395/5EE53C49" Ref="#PWR?"  Part="1" 
+AR Path="/5E9F389F/5EE53C49" Ref="#PWR0103"  Part="1" 
+F 0 "#PWR0103" H 3350 1100 50  0001 C CNN
+F 1 "GND" H 3355 1177 50  0000 C CNN
+F 2 "" H 3350 1350 50  0001 C CNN
+F 3 "" H 3350 1350 50  0001 C CNN
+	1    3350 1350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3350 1050 3350 1000
+Connection ~ 3350 1000
+Wire Wire Line
+	3350 1000 3100 1000
+$EndSCHEMATC
