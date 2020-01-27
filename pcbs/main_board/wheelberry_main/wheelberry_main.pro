@@ -1,4 +1,4 @@
-update=30/12/2019 10:43:22
+update=21/01/2020 17:10:55
 version=1
 last_client=kicad
 [cvpcb]
@@ -16,6 +16,16 @@ version=1
 [eeschema]
 version=1
 LibDir=
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=Pcbnew
+SpiceAjustPassiveValues=0
+LabSize=50
+ERC_TestSimilarLabels=1
 [pcbnew]
 version=1
 PageLayoutDescrFile=
@@ -39,14 +49,14 @@ dPairWidth1=0.25
 dPairGap1=0.25
 dPairViaGap1=0.25
 SilkLineWidth=0.15
-SilkTextSizeV=4
-SilkTextSizeH=1
+SilkTextSizeV=2.5
+SilkTextSizeH=1.5
 SilkTextSizeThickness=0.15
 SilkTextItalic=0
 SilkTextUpright=1
 CopperLineWidth=0.09999999999999999
 CopperTextSizeV=4
-CopperTextSizeH=1
+CopperTextSizeH=1.25
 CopperTextThickness=0.2
 CopperTextItalic=0
 CopperTextUpright=1
@@ -262,13 +272,3 @@ uViaDrill=0.125
 dPairWidth=0.25
 dPairGap=0.25
 dPairViaGap=0.25
-[schematic_editor]
-version=1
-PageLayoutDescrFile=
-PlotDirectoryName=
-SubpartIdSeparator=0
-SubpartFirstId=65
-NetFmtName=Pcbnew
-SpiceAjustPassiveValues=0
-LabSize=50
-ERC_TestSimilarLabels=1
