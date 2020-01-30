@@ -1,0 +1,6 @@
+{
+  angleCorrection: {
+    Y: 20,
+    Z: 0
+  }
+}

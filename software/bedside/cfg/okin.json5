@@ -1,0 +1,16 @@
+{
+  mcp_port: "okin.B",
+  acc_name: 'phidget',
+  head: {
+    up: 0,
+    down: 3
+  },
+  feet: {
+    up: 2,
+    down: 1
+  },
+  platform: {
+    up: 5,
+    down: 4
+  },
+}

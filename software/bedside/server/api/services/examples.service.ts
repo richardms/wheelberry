@@ -1,4 +1,4 @@
-import L from '../../common/logger'
+import L from '../../logger'
 
 let id = 0;
 interface Example {
@@ -7,8 +7,8 @@ interface Example {
 };
 
 const examples: Example[] = [
-    { id: id++, name: 'example 0' }, 
-    { id: id++, name: 'example 1' }
+  { id: id++, name: 'example 0' },
+  { id: id++, name: 'example 1' }
 ];
 
 export class ExamplesService {

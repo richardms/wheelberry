@@ -19,7 +19,11 @@ wiringpi.pullUpDnControl(65, 2) # set internal pull-up
 
 try:
     while True:
-        print  '%d%d%d%d'%(wiringpi.digitalRead(65),wiringpi.digitalRead(66),wiringpi.digitalRead(67),wiringpi.digitalRead(68))
+        print  '%d%d%d%d%d%d%d%d'%(
+		wiringpi.digitalRead(65),wiringpi.digitalRead(66),
+		wiringpi.digitalRead(67),wiringpi.digitalRead(68),
+		wiringpi.digitalRead(69),wiringpi.digitalRead(70),
+		wiringpi.digitalRead(71),wiringpi.digitalRead(72))
         wiringpi.digitalWrite(73, wiringpi.digitalRead(65))
         sleep(0.05)
 finally:

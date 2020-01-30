@@ -1,85 +1,205 @@
-import { WbI2cDeviceTypes, WbI2cBus, WbI2cDeviceCfg } from './WbI2cBus';
+import { EventEmitter } from 'events';
+
+import _ from 'lodash';
+
+import { WbI2cBus, WbI2cDeviceCfg } from './WbI2cBus';
 import { WbI2cDevice } from './WbI2cDevice';
 
-/** Direction of the I/O pins */
-export enum Direction {
-  /** Output pin */
-  OUT,
-  /** Input pin without pull-up */
-  IN,
-  /** Input pin with pull-up */
-  IN_UP,
-}
+import { Gpio } from 'pigpio';
+import l from '../server/logger';
 
-/** Interupt mode */
-export enum InteruptMode {
-  /** No interupt (used to reset) */
-  INT_None,
-  /** Interupt when not one */
-  INT_One,
-  /** Interupt when not zero */
-  INT_Zero,
-  /** Interupt on change */
-  INT_Change,
-}
+export enum MCP23017PortId {
+  A = "A",
+  B = "B"
+};
 
-/** An interupt definition */
-export interface InteruptDefinition {
-  /** Pin number */
-  pin: number;
-  /** Interupt mode of the pin */
-  mode: InteruptMode;
-  /** Callback if any */
-  callback?: (val: number) => void;
-}
-
-/** Interupt handler to use as an abstract type */
-export interface InteruptHandler {
-  /** Map from pin number to callback */
-  [pin: number]: (val: number) => void;
-}
-
-/** Pin value */
-export enum Level {
-  /** Low or 0 */
-  LOW = 0,
-  /** High or 1 */
-  HIGH,
-}
-
-const regAddrSeparate = {
-  DEFVAL: { A: 0x03, B: 0x13 },
-  GPINTEN: { A: 0x02, B: 0x12 },
-  GPIO: { A: 0x09, B: 0x19 },
-  GPPU: { A: 0x06, B: 0x16 },
-  INTCAP: { A: 0x08, B: 0x18 },
-  INTCON: { A: 0x04, B: 0x14 },
-  INTF: { A: 0x07, B: 0x17 },
-  IOCON: 0x05,
-  IODIR: { A: 0x00, B: 0x10 },
-  IPOL: { A: 0x01, B: 0x11 },
-  OLAT: { A: 0x0a, B: 0x1a },
+enum MCP23017Reg {
+  DEFVAL = 0x06,
+  GPINTEN = 0x04,
+  GPIO = 0x12,
+  GPPU = 0x0c,
+  INTCAP = 0x10,
+  INTCON = 0x08,
+  INTF = 0x0e,
+  IOCON = 0x0a,
+  IODIR = 0x00,
+  IPOL = 0x02,
+  OLAT = 0x14,
 };
 
 export interface MCP23017Cfg {
   i2cAddress: number;
 }
+
+export interface MCP23017PortCfgDetails {
+  int_gpio: number | null,
+  int_on_change: boolean,
+  default: number,
+  read_bits: number,
+  write_bits: number,
+  poll_period: number
+}
+
+export class MCP23017Port extends EventEmitter {
+  private offset: number;
+  private intGpio: Gpio | null;
+  private curRdValue: number;
+  private curWrValue: number;
+  private interval: NodeJS.Timeout;
+
+  static DefaultDetails: MCP23017PortCfgDetails = {
+    int_gpio: null,
+    int_on_change: true,
+    default: 0x00,
+    read_bits: 0xff,
+    write_bits: 0x00,
+    poll_period: 0
+  };
+
+  constructor(private mcp: MCP23017, private port: MCP23017PortId, private details: MCP23017PortCfgDetails) {
+    super();
+
+    this.offset = (port === MCP23017PortId.A) ? 0 : 1;
+
+    this.curRdValue = details.default & details.read_bits;
+    this.curWrValue = details.default & details.write_bits;
+
+    if (this.details.int_gpio !== null) {
+      this.intGpio = new Gpio(details.int_gpio, {
+        mode: Gpio.INPUT,
+        pullUpDown: Gpio.PUD_OFF,
+        edge: Gpio.FALLING_EDGE
+      })
+    } else {
+      this.intGpio = null;
+    }
+
+    if (details.poll_period) {
+      this.interval = setInterval(() => this._update(MCP23017Reg.GPIO), details.poll_period);
+    }
+  }
+
+  public initSetup(): void {
+    this.writeRegSync(MCP23017Reg.IODIR, 0xFF ^ this.details.write_bits);
+    this.writeRegSync(MCP23017Reg.GPPU, 0xff);
+    this.writeRegSync(MCP23017Reg.OLAT, 0x00);
+    this.writeRegSync(MCP23017Reg.GPINTEN, 0x00);
+    this.writeRegSync(MCP23017Reg.DEFVAL, 0x00);
+    this.writeRegSync(MCP23017Reg.IPOL, 0x00);
+    this.writeRegSync(MCP23017Reg.INTCON, 0x00);
+    this.readRegSync(MCP23017Reg.INTCAP);
+    this.readRegSync(MCP23017Reg.GPIO);
+
+    if (this.details.int_gpio !== null) {
+      this.intGpio.on('interrupt', (level) => {
+        this._isr(level);
+      });
+      if (this.details.int_on_change) {
+        this.writeRegSync(MCP23017Reg.INTCON, 0xff ^ this.details.read_bits);
+      } else {
+        this.writeRegSync(MCP23017Reg.DEFVAL, this.details.default);
+        this.writeRegSync(MCP23017Reg.INTCON, this.details.read_bits);
+      }
+      this.writeRegSync(MCP23017Reg.GPINTEN, this.details.read_bits);
+    }
+  }
+
+  public set(val: number) {
+    val = val & this.details.write_bits;
+    this.writeRegSync(MCP23017Reg.OLAT, val);
+    this.curWrValue = val;
+  }
+
+  public setBit(bit: number, val: boolean) {
+    const bval = (1 << bit);
+    const newVal = (
+      (this.curWrValue & (0xff ^ bval)) |
+      ((val) ? bval : 0)
+    );
+    this.set(newVal);
+  }
+
+  writeRegSync(reg: MCP23017Reg, data: number) {
+    this.mcp.writeByteSync(reg + this.offset, data);
+  }
+
+  readRegSync(reg: MCP23017Reg) {
+    return this.mcp.readByteSync(reg + this.offset);
+  }
+
+  private _isr(level) {
+    this._update(MCP23017Reg.INTCAP);
+    this._update(MCP23017Reg.GPIO);
+  }
+
+  private _update(from: MCP23017Reg) {
+    const val = this.mcp.readByteSync(from + this.offset);
+
+    let diff = (val ^ this.curRdValue) & this.details.read_bits;
+    this.curRdValue = this.curRdValue ^ diff;
+    console.log(diff, this.curRdValue);
+    if (diff) {
+      this.emit('change', diff, this.curRdValue);
+    }
+  }
+}
+
 export class MCP23017 extends WbI2cDevice {
-  private addr: number;
+
+  private ports: Map<MCP23017PortId, MCP23017Port>;
+  static Registry: Map<string, MCP23017> = new Map<string, MCP23017>();
+
+  static Init() {
+    WbI2cBus.AddDeviceType({
+      name: 'MCP23017',
+      match: /^mcp(?:23017)?$/i,
+      impl: MCP23017,
+    });
+  }
+
+  static FindByName(name: string): MCP23017 {
+    return MCP23017.Registry.get(name);
+  }
+
+  static PortByName(name: string): MCP23017Port {
+    const [mcp_name, port_id] = name.split('.');
+    const mcp = MCP23017.Registry.get(mcp_name);
+    return mcp.getPort(port_id as MCP23017PortId);
+  }
 
   constructor(bus: WbI2cBus, cfg: WbI2cDeviceCfg) {
     super(bus, cfg);
+
+    cfg.details = cfg.details || {};
+    _.defaultsDeep(cfg.details, {
+      A: {
+        ...MCP23017Port.DefaultDetails
+      },
+      B: {
+        ...MCP23017Port.DefaultDetails
+      }
+    });
+
+    this.ports = new Map<MCP23017PortId, MCP23017Port>();
+    this.ports.set(MCP23017PortId.A, new MCP23017Port(this, MCP23017PortId.A, cfg.details.A));
+    this.ports.set(MCP23017PortId.B, new MCP23017Port(this, MCP23017PortId.B, cfg.details.B));
+
+    this.initSetup();
+
+    MCP23017.Registry.set(cfg.name, this);
   }
 
-  public static lookup(name: string): MCP23017 | null {
-    return null;
+  public getPort(port: MCP23017PortId): MCP23017Port {
+    return this.ports.get(port);
   }
 
-  public setDirection(dir: Direction): void {}
+  private initSetup(): void {
+    this.writeByteSync(MCP23017Reg.IOCON, 0x00);
+
+    this.getPort(MCP23017PortId.A).initSetup();
+    this.getPort(MCP23017PortId.B).initSetup();
+  }
+
 }
 
-WbI2cDeviceTypes.push({
-  name: 'MCP23017',
-  match: /^mcp(?23017)?$/gi,
-  impl: MCP23017,
-});
+
