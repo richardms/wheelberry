@@ -29,7 +29,7 @@ const i2cBus = new WbI2cBus(l, {
   devices: loadCfg(cfgDir, 'i2c.json5'),
 });
 
-const acc = new AccelerometerPhidget(l, loadCfg(cfgDir, 'accelerometer.json5');
+const acc = new AccelerometerPhidget(l, loadCfg(cfgDir, 'accelerometer.json5'));
 
 const bed = new OkinBed(l, 'bed', loadCfg(cfgDir, 'okin.json5'))
 

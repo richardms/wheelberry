@@ -1,14 +1,14 @@
 import { EventEmitter } from 'events';
 import { Logger } from 'pino';
 
-import { Accelerometer, AccelerometerCfg } from './Accelerometer';
+import { Accelerometer, AccelerometerCfg, AccelerometerResult } from './Accelerometer';
 
 import phidget22 from 'phidget22';
 
 export interface AccelerometerPhidgetCfg extends AccelerometerCfg {
   angleCorrection: {
-    Y: number,
-    Z: number
+    theta: number,
+    phi: number
   }
 };
 
@@ -22,16 +22,6 @@ enum AccelerometerPhidgetState {
   Error
 };
 
-function addAngleDegrees(angle1: number, angle2: number) {
-  let result = angle1 + angle2;
-  while (result < -180) {
-    result += 360;
-  }
-  while (result > 180) {
-    result -= 360;
-  }
-  return result;
-}
 
 export class AccelerometerPhidget extends Accelerometer {
   conn: any;
@@ -47,7 +37,7 @@ export class AccelerometerPhidget extends Accelerometer {
   accelerationSum: [number, number, number];
 
   constructor(log: Logger, private cfg: AccelerometerPhidgetCfg) {
-    super(log, cfg.acc_name);
+    super(log, 'phidget');//cfg.acc_name);
     this.curState = AccelerometerPhidgetState.Uninitialised;
 
     this.accelerationSum = [0, 0, 0];
@@ -83,7 +73,7 @@ export class AccelerometerPhidget extends Accelerometer {
     this._setState(AccelerometerPhidgetState.Connecting);
   }
 
-  start(updateHz: number) {
+  public start(updateHz: number) {
     const period_ms = 1000 / updateHz;
 
     const targetInterval = period_ms / this.bufferLen;
@@ -96,7 +86,7 @@ export class AccelerometerPhidget extends Accelerometer {
     this._setState(AccelerometerPhidgetState.Running);
   }
 
-  stop() {
+  public stop() {
     this._setState(AccelerometerPhidgetState.Idle);
     this.acc.setDataInterval(this.maxDataInterval);
   }
@@ -131,38 +121,47 @@ export class AccelerometerPhidget extends Accelerometer {
     if (this._stateIs(AccelerometerPhidgetState.Running)) {
       this.counter += 1;
       if (this.counter == (this.bufferLen)) {
-        const magnitude = Math.sqrt(
-          (this.accelerationSum[0] * this.accelerationSum[0]) +
-          (this.accelerationSum[1] * this.accelerationSum[1]) +
-          (this.accelerationSum[2] * this.accelerationSum[2])
-        ) / this.bufferLen;
-
-
-        let angleY = 0;
-        let angleZ = 0;
-
-        if (Math.abs(this.accelerationSum[1]) < (1 / 4096)) {
-          angleY = (180 *
-            ((this.accelerationSum[0]) >= 0 ? 1 : -1) *
-            ((this.accelerationSum[1]) >= 0 ? 1 : -1));
-          angleZ = (180 *
-            ((this.accelerationSum[2]) >= 0 ? 1 : -1) *
-            ((this.accelerationSum[1]) >= 0 ? 1 : -1));
-        } else {
-          angleY = Math.atan(this.accelerationSum[0] / this.accelerationSum[1]) * (180 / Math.PI);
-          angleZ = Math.atan(this.accelerationSum[2] / this.accelerationSum[1]) * (180 / Math.PI);
-        }
-
-        angleY = addAngleDegrees(angleY, this.cfg.angleCorrection.Y);
-        angleZ = addAngleDegrees(angleZ, this.cfg.angleCorrection.Z);
-
-        this.emit('acceleration', magnitude, angleY, angleZ, [
-          this.accelerationSum[0] / this.bufferLen,
-          this.accelerationSum[1] / this.bufferLen,
-          this.accelerationSum[2] / this.bufferLen,
-        ]);
+        this.emit('reading', this.get());
         this.counter = 0;
       }
+    }
+  }
+
+  public get(): AccelerometerResult {
+    const magnitude = Math.sqrt(
+      (this.accelerationSum[0] * this.accelerationSum[0]) +
+      (this.accelerationSum[1] * this.accelerationSum[1]) +
+      (this.accelerationSum[2] * this.accelerationSum[2])
+    ) / this.bufferLen;
+
+
+    let theta = 0;
+    let phi = 0;
+
+    if (Math.abs(this.accelerationSum[2]) < (1 / 4096)) {
+      theta = (180 *
+        ((this.accelerationSum[0]) >= 0 ? 1 : -1) *
+        ((this.accelerationSum[1]) >= 0 ? 1 : -1));
+      phi = (180 *
+        ((this.accelerationSum[2]) >= 0 ? 1 : -1) *
+        ((this.accelerationSum[1]) >= 0 ? 1 : -1));
+    } else {
+      theta = Math.atan(this.accelerationSum[1] / this.accelerationSum[2]) * (180 / Math.PI);
+      phi = Math.atan(this.accelerationSum[0] / this.accelerationSum[2]) * (180 / Math.PI);
+    }
+
+    theta = Accelerometer.addAngleDegrees(theta, this.cfg.angleCorrection.theta);
+    phi = Accelerometer.addAngleDegrees(phi, this.cfg.angleCorrection.phi);
+
+    return {
+      magnitude,
+      theta,
+      phi,
+      reading: [
+        this.accelerationSum[0] / this.bufferLen,
+        this.accelerationSum[1] / this.bufferLen,
+        this.accelerationSum[2] / this.bufferLen,
+      ]
     }
   }
 }

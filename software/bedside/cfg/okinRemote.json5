@@ -5,8 +5,8 @@
     down: 3
   },
   feet: {
-    up: 2,
-    down: 1
+    up: 1,
+    down: 2
   },
   platform: {
     up: 5,

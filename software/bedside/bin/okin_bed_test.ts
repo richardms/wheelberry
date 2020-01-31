@@ -40,6 +40,7 @@ A.on('change', (diff: number, curValue: number) => {
 
 const okinBed = new OkinBed(l, "okin", {
   mcp_port: "okin.B",
+  max_move_duration: 60,
   head: {
     up: 0,
     down: 3

@@ -28,6 +28,42 @@ export class AlexaSkillOkin extends AlexaSkill {
         },
         handler: this.intent_Stop
       },
+      {
+        name: "Target",
+        schema: {
+          slots: {
+            angle: "AMAZON.NUMBER"
+          }
+        },
+        handler: this.intent_Target
+      },
+      {
+        name: "SitUp",
+        schema: {
+          slots: {
+          }
+        },
+        handler: this.intent_SitUp
+      },
+      {
+        name: "Flat",
+        schema: {
+          slots: {
+
+          }
+        },
+        handler: this.intent_Flat
+      },
+      {
+        name: "Preset",
+        schema: {
+          slots: {
+            presetId: "AMAZON.NUMBER"
+          }
+        },
+        handler: this.intent_Preset
+      },
+
     ];
   }
 
@@ -41,7 +77,7 @@ export class AlexaSkillOkin extends AlexaSkill {
     this.okinBed.move(actuator, dir == 'up', duration);
     reply = "moving " + actuator + " " + dir;
 
-    response.say(reply);
+    this.say(response, reply);
   }
 
   protected intent_Stop(request: request, response: response) {
@@ -54,7 +90,60 @@ export class AlexaSkillOkin extends AlexaSkill {
     this.okinBed.stop(actuator);
     reply = "stopping " + actuator;
 
-    response.say(reply);
+    this.say(response, reply);
+  }
+
+  protected intent_Target(request: request, response: response) {
+    let reply = "Sorry. I'm confused.";
+    const angle = parseInt(request.slot("angle"));
+
+    this.log.debug("Target: " + angle);
+
+    this.okinBed.target(angle);
+    reply = "moving to " + angle + " degrees";
+
+    this.say(response, reply);
+  }
+
+  protected intent_SitUp(request: request, response: response) {
+    let reply = "Sorry. I'm confused.";
+    const angle = 60;
+
+    this.log.debug("Target: " + angle);
+
+    this.okinBed.target(angle);
+    reply = "moving to " + angle + " degrees";
+
+    this.say(response, reply);
+  }
+
+  protected intent_Flat(request: request, response: response) {
+    let reply = "Sorry. I'm confused.";
+    const angle = 0;
+
+    this.log.debug("Target: " + angle);
+
+    this.okinBed.target(angle);
+    reply = "moving to " + angle + " degrees";
+
+    this.say(response, reply);
+  }
+
+
+  protected intent_Preset(request: request, response: response) {
+    let reply = "Sorry. I'm confused.";
+    const preset = parseInt(request.slot("presetId"));
+
+    this.log.debug("Preset: " + preset);
+
+    this.okinBed.preset(preset);
+    reply = "moving to preset " + preset;
+
+    this.say(response, reply);
+  }
+
+  protected say(response: response, reply: string) {
+    response.say("<prosody volume=\"x-soft\">" + reply + "</prosody>")
   }
 
 }

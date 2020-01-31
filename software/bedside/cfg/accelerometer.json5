@@ -1,6 +1,7 @@
 {
+  acc_name: 'phidget',
   angleCorrection: {
-    Y: 20,
-    Z: 0
+    theta: -2,
+    phi: 0
   }
 }
