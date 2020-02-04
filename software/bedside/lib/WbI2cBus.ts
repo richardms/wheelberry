@@ -32,7 +32,6 @@ export class WbI2cBus {
   static I2cDeviceTypes: WbI2cDeviceTypeDescriptor[] = [];
 
   static AddDeviceType(desc: WbI2cDeviceTypeDescriptor) {
-    console.log('adding')
     WbI2cBus.I2cDeviceTypes.push(desc);
   }
 
@@ -75,7 +74,7 @@ name: string   */
 
   public writeByteSync(addr: number, subaddr: number, data: number) {
     const wbuf = Buffer.from([subaddr, data]);
-    this.debug('addr %s.%s wr > %s', addr.toString(16), subaddr.toString(16), data.toString(16));
+    this.trace('addr %s.%s wr > %s', addr.toString(16), subaddr.toString(16), data.toString(16));
     this.i2cBus.i2cWriteSync(addr, wbuf.length, wbuf);
   }
 
@@ -85,7 +84,7 @@ name: string   */
     this.i2cBus.i2cWriteSync(addr, wbuf.length, wbuf);
 
     this.i2cBus.i2cReadSync(addr, rbuf.length, rbuf);
-    this.debug('addr %s.%s rd < %s', addr.toString(16), subaddr.toString(16), rbuf[0].toString(16));
+    this.trace('addr %s.%s rd < %s', addr.toString(16), subaddr.toString(16), rbuf[0].toString(16));
     return rbuf[0];
   }
 
@@ -103,5 +102,9 @@ name: string   */
 
   public debug(msg: string, ...args: any[]) {
     return this.log.debug('i2c-%d: ' + msg, this.cfg.busId, ...args);
+  }
+
+  public trace(msg: string, ...args: any[]) {
+    return this.log.trace('i2c-%d: ' + msg, this.cfg.busId, ...args);
   }
 }
