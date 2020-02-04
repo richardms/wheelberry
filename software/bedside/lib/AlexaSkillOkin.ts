@@ -3,7 +3,7 @@ import { OkinBed } from "./OkinBed";
 
 export class AlexaSkillOkin extends AlexaSkill {
   constructor(log: Logger, private okinBed: OkinBed) {
-    super(log, "okin");
+    super(log, "bed stead");
   }
 
   protected get_intents(): IntentItem[] {

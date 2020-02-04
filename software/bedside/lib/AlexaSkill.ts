@@ -47,7 +47,9 @@ export class AlexaSkill {
   }
 
   protected onLaunch(request, response) {
-    response.say("You launched the " + this.phonetic_name + " app!");
+    response
+      .shouldEndSession(false)
+      .say(this.phonetic_name + "?");
   }
 
   protected getHelpResponse(): string {
