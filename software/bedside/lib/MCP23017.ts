@@ -5,8 +5,7 @@ import _ from 'lodash';
 import { WbI2cBus, WbI2cDeviceCfg } from './WbI2cBus';
 import { WbI2cDevice } from './WbI2cDevice';
 
-import { Gpio } from 'pigpio';
-import l from '../server/logger';
+import { Gpio } from 'onoff';
 
 export enum MCP23017PortId {
   A = "A",
@@ -65,11 +64,7 @@ export class MCP23017Port extends EventEmitter {
     this.curWrValue = details.default & details.write_bits;
 
     if (this.details.int_gpio !== null) {
-      this.intGpio = new Gpio(details.int_gpio, {
-        mode: Gpio.INPUT,
-        pullUpDown: Gpio.PUD_OFF,
-        edge: Gpio.FALLING_EDGE
-      })
+      this.intGpio = new Gpio(details.int_gpio, 'in', 'falling')
     } else {
       this.intGpio = null;
     }
@@ -91,8 +86,8 @@ export class MCP23017Port extends EventEmitter {
     this.readRegSync(MCP23017Reg.GPIO);
 
     if (this.details.int_gpio !== null) {
-      this.intGpio.on('interrupt', (level) => {
-        this._isr(level);
+      this.intGpio.watch((level) => {
+        this._isr();
       });
       if (this.details.int_on_change) {
         this.writeRegSync(MCP23017Reg.INTCON, 0xff ^ this.details.read_bits);
@@ -127,7 +122,7 @@ export class MCP23017Port extends EventEmitter {
     return this.mcp.readByteSync(reg + this.offset);
   }
 
-  private _isr(level) {
+  private _isr() {
     this._update(MCP23017Reg.INTCAP);
     this._update(MCP23017Reg.GPIO);
   }
@@ -137,7 +132,7 @@ export class MCP23017Port extends EventEmitter {
 
     let diff = (val ^ this.curRdValue) & this.details.read_bits;
     this.curRdValue = this.curRdValue ^ diff;
-    console.log(diff, this.curRdValue);
+
     if (diff) {
       this.emit('change', diff, this.curRdValue);
     }
