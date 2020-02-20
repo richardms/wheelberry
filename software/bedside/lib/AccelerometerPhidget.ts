@@ -143,11 +143,11 @@ export class AccelerometerPhidget extends Accelerometer {
         ((this.accelerationSum[0]) >= 0 ? 1 : -1) *
         ((this.accelerationSum[1]) >= 0 ? 1 : -1));
       phi = (180 *
-        ((this.accelerationSum[2]) >= 0 ? 1 : -1) *
-        ((this.accelerationSum[1]) >= 0 ? 1 : -1));
+        ((this.accelerationSum[1]) >= 0 ? 1 : -1) *
+        ((this.accelerationSum[0]) >= 0 ? 1 : -1));
     } else {
-      theta = Math.atan(this.accelerationSum[1] / this.accelerationSum[2]) * (180 / Math.PI);
-      phi = Math.atan(this.accelerationSum[0] / this.accelerationSum[2]) * (180 / Math.PI);
+      theta = Math.atan(this.accelerationSum[0] / this.accelerationSum[2]) * -(180 / Math.PI);
+      phi = Math.atan(this.accelerationSum[1] / this.accelerationSum[2]) * (180 / Math.PI);
     }
 
     theta = Accelerometer.addAngleDegrees(theta, this.cfg.angleCorrection.theta);
