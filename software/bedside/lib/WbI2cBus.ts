@@ -1,6 +1,6 @@
-import pino from 'pino';
-import * as i2c from 'i2c-bus';
-import { WbI2cDevice } from './WbI2cDevice';
+import { Logger } from "./Logger";
+import * as i2c from "i2c-bus";
+import { WbI2cDevice } from "./WbI2cDevice";
 
 export interface WbI2cDeviceCfg {
   address: number;
@@ -15,7 +15,7 @@ export interface WbI2cBusCfg {
 }
 
 interface WbI2cDeviceTypeClass {
-  new(bus: WbI2cBus, cfg: WbI2cDeviceCfg): WbI2cDevice;
+  new (bus: WbI2cBus, cfg: WbI2cDeviceCfg): WbI2cDevice;
 }
 
 export interface WbI2cDeviceTypeDescriptor {
@@ -27,7 +27,7 @@ export interface WbI2cDeviceTypeDescriptor {
 export class WbI2cBus {
   private i2cBus: i2c.I2cBus;
   private i2cDevices: WbI2cDevice[];
-  private log: pino.Logger;
+  private log: Logger;
 
   static I2cDeviceTypes: WbI2cDeviceTypeDescriptor[] = [];
 
@@ -35,12 +35,12 @@ export class WbI2cBus {
     WbI2cBus.I2cDeviceTypes.push(desc);
   }
 
-  constructor(parentlog: pino.Logger, private cfg: WbI2cBusCfg) {
+  constructor(parentlog: Logger, private cfg: WbI2cBusCfg) {
     this.log = parentlog; //.child({ i2c: cfg.busId });
 
-    this.debug('Opening.');
+    this.debug("Opening.");
     this.i2cBus = i2c.openSync(cfg.busId);
-    this.info('Opened.')
+    this.info("Opened.");
 
     this.i2cDevices = [];
 
@@ -51,19 +51,21 @@ export class WbI2cBus {
    * FindByName
 name: string   */
   public FindByName<T>(name: string): T | null {
-    const dev = this.i2cDevices.find((dev) => (dev.name === name));
+    const dev = this.i2cDevices.find((dev) => dev.name === name);
 
     if (dev === null) {
       return null;
     } else {
-      return (dev as unknown) as T;
+      return dev as unknown as T;
     }
   }
 
   private parseCfg(cfg: WbI2cBusCfg): void {
     for (const c of cfg.devices) {
-      this.info('%s %d', c.type, WbI2cBus.I2cDeviceTypes.length);
-      const typeDesc = WbI2cBus.I2cDeviceTypes.find(td => td.match.test(c.type));
+      this.info("%s %d", c.type, WbI2cBus.I2cDeviceTypes.length);
+      const typeDesc = WbI2cBus.I2cDeviceTypes.find((td) =>
+        td.match.test(c.type)
+      );
       if (typeDesc === undefined) {
         continue;
       }
@@ -74,7 +76,12 @@ name: string   */
 
   public writeByteSync(addr: number, subaddr: number, data: number) {
     const wbuf = Buffer.from([subaddr, data]);
-    this.trace('addr %s.%s wr > %s', addr.toString(16), subaddr.toString(16), data.toString(16));
+    this.trace(
+      "addr %s.%s wr > %s",
+      addr.toString(16),
+      subaddr.toString(16),
+      data.toString(16)
+    );
     this.i2cBus.i2cWriteSync(addr, wbuf.length, wbuf);
   }
 
@@ -83,28 +90,33 @@ name: string   */
     let rbuf = Buffer.alloc(1);
     this.i2cBus.i2cWriteSync(addr, wbuf.length, wbuf);
 
-    this.i2cBus.i2cReadSync(addr, rbuf.length, rbuf);
-    this.trace('addr %s.%s rd < %s', addr.toString(16), subaddr.toString(16), rbuf[0].toString(16));
+    const l = this.i2cBus.i2cReadSync(addr, rbuf.length, rbuf);
+    this.trace(
+      "addr %s.%s rd < %s",
+      addr.toString(16),
+      subaddr.toString(16),
+      rbuf[0].toString(16)
+    );
     return rbuf[0];
   }
 
   public error(msg: string, ...args: any[]) {
-    return this.log.error('i2c-%d: ' + msg, this.cfg.busId, ...args);
+    return this.log.error("i2c-%d: " + msg, this.cfg.busId, ...args);
   }
 
   public warn(msg: string, ...args: any[]) {
-    return this.log.warn('i2c-%d: ' + msg, this.cfg.busId, ...args);
+    return this.log.warn("i2c-%d: " + msg, this.cfg.busId, ...args);
   }
 
   public info(msg: string, ...args: any[]) {
-    return this.log.info('i2c-%d: ' + msg, this.cfg.busId, ...args);
+    return this.log.info("i2c-%d: " + msg, this.cfg.busId, ...args);
   }
 
   public debug(msg: string, ...args: any[]) {
-    return this.log.debug('i2c-%d: ' + msg, this.cfg.busId, ...args);
+    return this.log.debug("i2c-%d: " + msg, this.cfg.busId, ...args);
   }
 
   public trace(msg: string, ...args: any[]) {
-    return this.log.trace('i2c-%d: ' + msg, this.cfg.busId, ...args);
+    return this.log.trace("i2c-%d: " + msg, this.cfg.busId, ...args);
   }
 }

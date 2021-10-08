@@ -1,5 +1,5 @@
-import { Logger } from 'pino';
-export { Logger } from 'pino';
+import { Logger } from "./Logger";
+export { Logger } from "./Logger";
 
 import { app as AlexaApp, IntentSchema, request, response } from "alexa-app";
 
@@ -25,7 +25,11 @@ export class AlexaSkill {
   private alexa_app: AlexaApp;
   public phonetic_name: string;
 
-  constructor(protected log: Logger, public name: string, phonetic_name_?: string) {
+  constructor(
+    protected log: Logger,
+    public name: string,
+    phonetic_name_?: string
+  ) {
     this.alexa_app = new AlexaApp(name);
 
     if (phonetic_name_) {
@@ -42,14 +46,12 @@ export class AlexaSkill {
   public express(express_app: Express.Application, endpoint?: string) {
     this.alexa_app.express({
       expressApp: express_app,
-      endpoint
+      endpoint,
     });
   }
 
   protected onLaunch(request, response) {
-    response
-      .shouldEndSession(false)
-      .say(this.phonetic_name + "?");
+    response.shouldEndSession(false).say(this.phonetic_name + "?");
   }
 
   protected getHelpResponse(): string {
@@ -83,7 +85,7 @@ export class AlexaSkill {
       "AMAZON.HelpIntent",
       {
         slots: {},
-        utterances: []
+        utterances: [],
       },
       this.intent_AMAZON_HelpIntent.bind(this)
     );
@@ -92,7 +94,7 @@ export class AlexaSkill {
       "AMAZON.StopIntent",
       {
         slots: {},
-        utterances: []
+        utterances: [],
       },
       this.intent_AMAZON_StopIntent.bind(this)
     );
@@ -101,7 +103,7 @@ export class AlexaSkill {
       "AMAZON.CancelIntent",
       {
         slots: {},
-        utterances: []
+        utterances: [],
       },
       this.intent_AMAZON_CancelIntent.bind(this)
     );

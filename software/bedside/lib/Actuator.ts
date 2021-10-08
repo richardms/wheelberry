@@ -1,16 +1,16 @@
-import process from 'process';
+import process from "process";
 
-import { Logger } from 'pino';
-import { MCP23017Port } from '../lib/MCP23017';
+import { Logger } from "./Logger";
+import { MCP23017Port } from "../lib/MCP23017";
 
 export interface ActuatorCfg {
-  up: number,
-  down: number
-};
+  up: number;
+  down: number;
+}
 
 enum ActuatorState {
   Stopped,
-  Moving
+  Moving,
 }
 
 export enum ActuatorCmdType {
@@ -20,21 +20,21 @@ export enum ActuatorCmdType {
 
   // Helper types, these are converted to the above
   Up = "up",
-  Down = "down"
+  Down = "down",
 }
 
 export interface ActuatorCmd {
-  type: ActuatorCmdType,
-  duration?: number,
-  dirIsUp?: boolean,
-};
+  type: ActuatorCmdType;
+  duration?: number;
+  dirIsUp?: boolean;
+}
 
 interface ActuatorCmdInternal {
-  type: ActuatorCmdType,
-  dirIsUp: boolean,
-  duration: number,
-  timestamp: number
-};
+  type: ActuatorCmdType;
+  dirIsUp: boolean;
+  duration: number;
+  timestamp: number;
+}
 
 export class Actuator {
   private curState: ActuatorState;
@@ -45,19 +45,24 @@ export class Actuator {
 
   private cmdQueue: ActuatorCmdInternal[];
 
-  constructor(private log: Logger, private name: string, private mcpPort: MCP23017Port, private cfg: ActuatorCfg) {
+  constructor(
+    private log: Logger,
+    private name: string,
+    private mcpPort: MCP23017Port,
+    private cfg: ActuatorCfg
+  ) {
     this.cmdQueue = [];
     this.curState = ActuatorState.Stopped;
   }
 
   move(dir_is_up: boolean) {
-    this.log.info('%s: actuator %s', this.name, dir_is_up ? 'UP' : 'DOWN');
+    this.log.info("%s: actuator %s", this.name, dir_is_up ? "UP" : "DOWN");
     this.mcpPort.setBit(this.cfg.down, !dir_is_up);
     this.mcpPort.setBit(this.cfg.up, dir_is_up);
   }
 
   stop() {
-    this.log.info('%s: actuator STOP', this.name);
+    this.log.info("%s: actuator STOP", this.name);
     this.mcpPort.setBit(this.cfg.down, false);
     this.mcpPort.setBit(this.cfg.up, false);
   }
@@ -67,7 +72,7 @@ export class Actuator {
       timestamp: process.uptime(),
       duration: inCmd.duration || 30,
       type: inCmd.type,
-      dirIsUp: inCmd.dirIsUp || (inCmd.type === "up")
+      dirIsUp: inCmd.dirIsUp || inCmd.type === "up",
     };
 
     if (cmd.type === ActuatorCmdType.Up) {
@@ -90,7 +95,7 @@ export class Actuator {
     }
     const cmd = this.cmdQueue.shift();
 
-    this.log.info('Process: ', cmd);
+    this.log.info("Process: ", cmd);
 
     if (this.curState == ActuatorState.Stopped) {
       this.curState = this._stateStopped(cmd);

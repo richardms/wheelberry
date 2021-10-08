@@ -1,11 +1,11 @@
-import { EventEmitter } from 'events';
-import { Logger } from 'pino';
+import { EventEmitter } from "events";
+import { Logger } from "./Logger";
 
-import phidget22 from 'phidget22';
+import phidget22 from "phidget22";
 
 export interface AccelerometerCfg {
   acc_name: string;
-};
+}
 
 export interface AccelerometerResult {
   magnitude: number;
@@ -25,7 +25,6 @@ export class Accelerometer extends EventEmitter {
     Accelerometer.Registry.set(name, acc);
   }
 
-
   static addAngleDegrees(angle1: number, angle2: number): number {
     let result = angle1 + angle2;
     while (result < -180) {
@@ -40,17 +39,13 @@ export class Accelerometer extends EventEmitter {
   constructor(protected log: Logger, private name: string) {
     super();
 
-    this.log.info('Registering Accelerometer \'%s\'', name);
+    this.log.info("Registering Accelerometer '%s'", name);
     Accelerometer.Register(name, this);
   }
 
-  public start(updateHz: number): void {
+  public start(updateHz: number): void {}
 
-  }
-
-  public stop(): void {
-
-  }
+  public stop(): void {}
 
   public get(): AccelerometerResult {
     return null;
