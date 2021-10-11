@@ -1,0 +1,34 @@
+{
+  mcp_port: "buttons.A",
+  bit: 0,
+  actions: [
+    {
+      hold: {
+        type: "bed",
+        actuator: "head",
+        dirIsUp: true,
+      },
+    },
+    {
+      hold: {
+        type: "bed",
+        actuator: "head",
+        dirIsUp: false,
+      },
+    },
+    {
+      hold: {
+        type: "bed",
+        actuator: "feet",
+        dirIsUp: true,
+      },
+    },
+    {
+      hold: {
+        type: "bed",
+        actuator: "feet",
+        dirIsUp: false,
+      },
+    },
+  ],
+}

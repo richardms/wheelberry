@@ -77,7 +77,7 @@ export class MCP23017Port extends EventEmitter {
     if (details.poll_period) {
       this.interval = setInterval(() => {
         const gpio = this.mcp.readByteSync(MCP23017Reg.GPIO + this.offset);
-        console.log("-", gpio);
+
         this._update(gpio);
       }, details.poll_period);
     }
