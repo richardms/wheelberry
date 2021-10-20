@@ -27,12 +27,14 @@ export interface MultiButtonActionTypes {
 
 export interface MultiButtonCfg {
   mcp_port: string;
+  bit: number;
   actions: MultiButtonActionTypes[];
 }
 
 type VoidFunction = null | (() => void);
 
 export class MultiButton {
+  private mask: number;
   private mcpPort: MCP23017Port;
   private mb: MultiButtonCore;
   private currentAction: null | string = null;
@@ -44,11 +46,13 @@ export class MultiButton {
   constructor(
     private log: Logger,
     private okinBed: OkinBed,
-    private cfg: MultiButtonCfg
+    cfg: MultiButtonCfg
   ) {
     this.mb = new MultiButtonCore(log);
 
     this.mcpPort = MCP23017.PortByName(cfg.mcp_port);
+
+    this.mask = 1 << (cfg.bit || 0);
 
     this.mcpPort.on("change", (bits: number, value: number) => {
       this._onChange(bits, value);
@@ -69,8 +73,8 @@ export class MultiButton {
   }
 
   _onChange(diff: number, value: number) {
-    if (diff & 0x01) {
-      this.mb.update((value & 1) == 0);
+    if (diff & this.mask) {
+      this.mb.update((value & this.mask) == 0);
     }
   }
 
