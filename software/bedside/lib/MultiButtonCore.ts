@@ -8,17 +8,30 @@ enum MultiButtonState {
   WAIT_PRESS,
 }
 
+export interface MultiButtonCoreConfig {
+  wait_release: number;
+  wait_press: number;
+}
+
+const multiButtonCoreConfigDefaults: MultiButtonCoreConfig = {
+  wait_press: 333,
+  wait_release: 333
+};
+
 export class MultiButtonCore extends EventEmitter {
   private state: MultiButtonState = MultiButtonState.IDLE;
   private pressed: boolean = false;
   private click_count: number = 0;
   private timeout: NodeJS.Timeout | null = null;
 
-  private wait_release: number = 300;
-  private wait_press: number = 300;
+  private cfg: MultiButtonCoreConfig = { ...multiButtonCoreConfigDefaults };
 
-  constructor(private log: Logger) {
+  constructor(private log: Logger, cfg_?: Partial<MultiButtonCoreConfig>) {
     super();
+
+    if (cfg_) {
+      this.cfg = { ...this.cfg, ...cfg_};
+    }
 
     this.reset();
 
@@ -91,7 +104,7 @@ export class MultiButtonCore extends EventEmitter {
     this.pressed = p;
     if (p) {
       // Transition to WAIT_RELEASE_OR_HOLD
-      this.setTimeout(this.wait_release);
+      this.setTimeout(this.cfg.wait_release);
       this.setState(MultiButtonState.WAIT_RELEASE_OR_HOLD);
     } else {
       this.log.warn("Received button release in IDLE");
@@ -109,7 +122,7 @@ export class MultiButtonCore extends EventEmitter {
     if (!p) {
       // Transition to WAIT_PRESS
 
-      this.setTimeout(this.wait_press);
+      this.setTimeout(this.cfg.wait_press);
       this.setState(MultiButtonState.WAIT_PRESS);
     } else {
       this.log.warn("Received button press in WAIT_RELEASE_OR_HOLD");
@@ -127,7 +140,7 @@ export class MultiButtonCore extends EventEmitter {
     if (p) {
       // Transition to WAIT_RELEASE_OR_HOLD
       this.click_count = this.click_count + 1;
-      this.setTimeout(this.wait_release);
+      this.setTimeout(this.cfg.wait_release);
       this.setState(MultiButtonState.WAIT_RELEASE_OR_HOLD);
     } else {
       this.log.warn("Received button release in WAIT_PRESS");

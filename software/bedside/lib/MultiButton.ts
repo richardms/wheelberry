@@ -1,7 +1,7 @@
 import { Logger } from "./Logger";
 
 import { MCP23017, MCP23017Port } from "./MCP23017";
-import { MultiButtonCore } from "./MultiButtonCore";
+import { MultiButtonCore, MultiButtonCoreConfig } from "./MultiButtonCore";
 import { OkinBed } from "./OkinBed";
 
 import _ from "lodash";
@@ -28,6 +28,7 @@ export interface MultiButtonActionTypes {
 export interface MultiButtonCfg {
   mcp_port: string;
   bit: number;
+  timings?: MultiButtonCoreConfig;
   actions: MultiButtonActionTypes[];
 }
 
@@ -48,7 +49,7 @@ export class MultiButton {
     private okinBed: OkinBed,
     cfg: MultiButtonCfg
   ) {
-    this.mb = new MultiButtonCore(log);
+    this.mb = new MultiButtonCore(log, cfg.timings);
 
     this.mcpPort = MCP23017.PortByName(cfg.mcp_port);
 
