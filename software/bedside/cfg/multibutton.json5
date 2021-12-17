@@ -1,7 +1,12 @@
 {
   mcp_port: "buttons.A",
   bit: 0,
+  timings: {
+    wait_press: 400,
+    wait_release: 400
+  },
   actions: [
+    {},
     {
       hold: {
         type: "bed",
