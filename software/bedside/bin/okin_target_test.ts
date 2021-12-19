@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import json5 from 'json5';
-import yargs from 'yargs';
+import yargs, { string } from 'yargs';
 
 import '../server/common/env';
 import l from '../server/logger';
@@ -30,7 +30,11 @@ const acc = new AccelerometerPhidget(l, loadCfg(cfgDir, 'accelerometer.json5'));
 const bed = new OkinBed(l, 'bed', loadCfg(cfgDir, 'okin.json5'))
 
 setTimeout(() => {
-  bed.target(parseInt(argv._[0]));
+  let preset = argv._[0]
+  if (typeof(preset) === "string") {
+    preset = parseInt(preset);
+  }
+  bed.target(preset);
 }, 1000);
 
 
