@@ -1,3 +1,5 @@
+import {exec} from "child_process";
+
 import { Logger } from "./Logger";
 
 import { MCP23017, MCP23017Port } from "./MCP23017";
@@ -18,7 +20,14 @@ interface MultiButtonActionURL {
   url: string;
 }
 
-type MultiButtonAction = MultiButtonActionBed | MultiButtonActionURL;
+interface MultiButtonActionExt {
+  type: "ext";
+  command: string;
+  timeout?: number;
+  cwd?: string;
+}
+
+type MultiButtonAction = MultiButtonActionBed | MultiButtonActionURL | MultiButtonActionExt;
 
 export interface MultiButtonActionTypes {
   hold?: MultiButtonAction;
@@ -114,13 +123,43 @@ export class MultiButton {
       };
     }
   }
+  
+  _onExt(details: MultiButtonActionExt) {
+    this.log.info(`Exec'ing ${details.command}`)
+    exec(details.command, {
+      cwd: details.cwd || "/tmp",
+      timeout: details.timeout || 60000
+    }, (error, stdout, stderr)=>{
+      if (error) {
+        this.log.info(`'${details.command}' failed ${error.message}`);
+      } else {
+        this.log.info(`'${details.command}' success`);
+      }
+    });
+  }
+
+  _onUrl(details: MultiButtonActionBed) {
+
+  }
+
+  _calcHandler(action: MultiButtonAction) {
+    let handler: (MultiButtonAction)=>void = this._onBed;
+
+    if (action.type.toLowerCase() == "ext") {
+      handler = this._onExt;
+    } else if (action.type.toLowerCase() == "url") {
+      handler = this._onUrl;
+    }
+
+    return handler.bind(this, action);
+  }
 
   _setupActions(actions: MultiButtonActionTypes[]) {
     _.each(actions, (action, idx) => {
       if (action.click) {
-        this.onClick[idx] = this._onBed.bind(this, action.click);
+        this.onClick[idx] = this._calcHandler(action.click);
       } else if (action.hold) {
-        this.onHold[idx] = this._onBed.bind(this, action.hold);
+        this.onHold[idx] = this._calcHandler(action.hold);
       }
     });
   }
