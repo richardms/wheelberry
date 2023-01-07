@@ -22,7 +22,7 @@
     "express": "^4.17.1",
     "express-openapi-validator": "^3.0.2",
     "i2c-bus": "^5.1.0",
-    "json5": "^2.1.1",
+    "json5": "^2.2.2",
     "lodash": "^4.17.21",
     "onoff": "^5.0.1",
     "phidget22": "^2.5.1",
